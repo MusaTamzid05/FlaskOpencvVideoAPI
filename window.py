@@ -8,8 +8,10 @@ class Window:
         pass
 
 
-    def show(self, req):
-        current_image = req["file"]
-        image = np.asarray(bytearray(current_image.read()), dtype = "uint8")
+
+    def show(self, req_data):
+        image_data = req_data.read()
+        np_image = np.fromstring(image_data, np.uint8)
+        image = cv2.imdecode(np_image, cv2.IMREAD_UNCHANGED)
         print(image.shape)
 

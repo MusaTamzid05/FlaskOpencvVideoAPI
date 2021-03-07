@@ -22,9 +22,8 @@ window = Window(window_name = "test")
 class Server(Resource):
 
     def post(self):
-        data = parser.parse_args()
-        print(data)
-        window.show(data)
+        req_parser = parser.parse_args()
+        window.show(req_parser["file"])
         return {"test" : "q"}
 
 
