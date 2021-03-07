@@ -27,6 +27,7 @@ class Client:
                 continue
 
             self._send_to_server(frame = frame)
+            print("Data send")
 
 
 
