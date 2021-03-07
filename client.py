@@ -7,10 +7,18 @@ class Client:
         self.cap = cv2.VideoCapture(video_path)
 
     def _send_to_server(self, frame):
+        shape = frame.shape
+        width, height, channel = shape[1], shape[0], shape[2]
         im_encode = cv2.imencode(".jpg", frame)[1]
-        current_file = {"file" : ("image.jpg", im_encode.tostring(), "image/jpeg")}
+        current_file = {"file" : ("image.jpg", im_encode.tostring(), "image/jpeg"),
+                }
+        data = {
+                "width" : width,
+                "height" : height,
+                "channel" : channel
+                }
         print("sending")
-        res = requests.post("http://localhost:5000", files = current_file)
+        res = requests.post("http://localhost:5000", data = data, files = current_file)
         print(res.status_code)
         return res
 
@@ -20,7 +28,6 @@ class Client:
 
         while running:
             ret , frame = self.cap.read()
-            print(ret)
 
             if ret == False:
                 running = False

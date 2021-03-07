@@ -5,19 +5,26 @@ from flask_restful import Api
 from flask_restful import reqparse
 import werkzeug
 
+from window import Window
+
 parser = reqparse.RequestParser()
 parser.add_argument("file", type = werkzeug.datastructures.FileStorage, location = "files")
+parser.add_argument("width", type = str, help = "width of the image")
+parser.add_argument("height", type = str, help = "height of the image")
+parser.add_argument("channel", type = str, help = "channels of the image")
+
 
 
 app = Flask(__name__)
 api = Api(app)
-
+window = Window(window_name = "test")
 
 class Server(Resource):
 
     def post(self):
         data = parser.parse_args()
         print(data)
+        window.show(data)
         return {"test" : "q"}
 
 
